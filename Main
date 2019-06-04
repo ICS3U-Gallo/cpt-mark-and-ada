@@ -1,0 +1,85 @@
+import arcade
+from Snake import Snake
+from Variable import *
+import time
+
+class MyGame(arcade.Window):
+
+    def __init__(self, width, height, title):
+        super().__init__(width, height, title)
+
+        #add snake
+        self.snake = Snake()
+        self.snake.add_body(3, 4)
+        self.snake.add_body(2, 4)
+        self.direction = 1
+        self.grid = []
+        for row in range(ROW_COUNT):
+            self.grid.append([])
+            for column in range(COLUMN_COUNT):
+                self.grid[row].append(0)  # Append a cell
+
+        self.add_snake_to_grid()
+
+        arcade.set_background_color(arcade.color.BLACK)
+
+
+    def add_snake_to_grid(self):
+        for i in range(self.snake.length):
+            row = self.snake.body[i][0]
+            col = self.snake.body[i][1]
+            self.grid[row][col] = SNAKE
+
+
+    def on_draw(self):
+        arcade.start_render()
+
+        for row in range(ROW_COUNT):
+            for column in range(COLUMN_COUNT):
+                # Figure out what color to draw the box
+                if self.grid[row][column] == SNAKE:
+                    color = arcade.color.GREEN
+                else:
+                    color = arcade.color.WHITE
+
+                x = (MARGIN + WIDTH) * column + MARGIN + WIDTH // 2
+                y = (MARGIN + HEIGHT) * row + MARGIN + HEIGHT // 2
+
+                arcade.draw_rectangle_filled(x, y, WIDTH, HEIGHT, color)
+
+    #only for testing purpose
+    def clear_grid(self):
+        for i in range(ROW_COUNT):
+            for j in range(COLUMN_COUNT):
+                self.grid[i][j] = 0
+
+
+    def update(self, delta_time: float):
+
+        self.clear_grid()
+
+        self.snake.update(self.direction)
+
+        self.add_snake_to_grid()
+
+        time.sleep(100/1000)
+
+
+    def on_key_press(self, key: int, modifiers: int):
+        if key == arcade.key.UP:
+            self.direction = UP
+        elif key == arcade.key.DOWN:
+            self.direction = DOWN
+        elif key == arcade.key.LEFT:
+            self.direction = LEFT
+        elif key == arcade.key.RIGHT:
+            self.direction = RIGHT
+
+def main():
+
+    window = MyGame(SCREEN_WIDTH, SCREEN_HEIGHT, TITLE)
+    arcade.run()
+
+
+if __name__ == "__main__":
+    main()
