@@ -1,0 +1,23 @@
+ROW_COUNT = 15
+COLUMN_COUNT = 15
+
+# This sets the WIDTH and HEIGHT of each grid location
+WIDTH = 20
+HEIGHT = 20
+
+# This sets the margin between each cell
+# and on the edges of the screen.
+MARGIN = 2
+
+#Define the variable used
+SNAKE = 2
+
+UP = 1
+DOWN = 2
+LEFT = 3
+RIGHT = 4
+
+SCREEN_WIDTH = (WIDTH + MARGIN) * COLUMN_COUNT + MARGIN
+SCREEN_HEIGHT = (HEIGHT + MARGIN) * ROW_COUNT + MARGIN
+
+TITLE = "Snake"
