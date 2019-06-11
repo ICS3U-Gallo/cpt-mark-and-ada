@@ -11,6 +11,8 @@ MARGIN = 2
 
 #Define the variable used
 SNAKE = 2
+APPLE = 3
+APPLE5 = 1
 
 UP = 1
 DOWN = 2
