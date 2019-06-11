@@ -2,6 +2,8 @@ import arcade
 from Snake import Snake
 from Variable import *
 import time
+from apple import Apple
+
 
 class MyGame(arcade.Window):
 
@@ -14,6 +16,12 @@ class MyGame(arcade.Window):
         self.snake.add_body(2, 4)
         self.direction = 1
         self.grid = []
+        self.defeat = False
+
+        self.apple = Apple()
+        self.apple.prodece(self.snake)
+
+
         for row in range(ROW_COUNT):
             self.grid.append([])
             for column in range(COLUMN_COUNT):
@@ -30,15 +38,41 @@ class MyGame(arcade.Window):
             col = self.snake.body[i][1]
             self.grid[row][col] = SNAKE
 
+        if self.apple.score == 1:
+            apple_x = self.apple.x
+            apple_y = self.apple.y
+            self.grid[apple_x][apple_y] = APPLE
+        elif self.apple.score == 5:
+            apple_x = self.apple.x
+            apple_y = self.apple.y
+            self.grid[apple_x][apple_y] = APPLE5
+
+
+
 
     def on_draw(self):
+        """
+        Render the screen.
+        """
+
+        # This command has to happen before we start drawing
         arcade.start_render()
+
+        # Draw the grid
+        if self.defeat:
+            arcade.set_background_color(arcade.color.WHITE)
+            arcade.draw_text("LOSE", 50, 50, arcade.color.BLACK)
+            return
 
         for row in range(ROW_COUNT):
             for column in range(COLUMN_COUNT):
                 # Figure out what color to draw the box
                 if self.grid[row][column] == SNAKE:
                     color = arcade.color.GREEN
+                elif self.grid[row][column] == APPLE:
+                    color = arcade.color.RED
+                elif self.grid[row][column] == APPLE5:
+                    color = arcade.color.GOLD
                 else:
                     color = arcade.color.WHITE
 
@@ -47,7 +81,10 @@ class MyGame(arcade.Window):
 
                 arcade.draw_rectangle_filled(x, y, WIDTH, HEIGHT, color)
 
+        arcade.draw_text("WHAT", 100, 100, arcade.color.BLACK, font_size=12)
+
     #only for testing purpose
+    #Don't use it in real app
     def clear_grid(self):
         for i in range(ROW_COUNT):
             for j in range(COLUMN_COUNT):
@@ -56,13 +93,13 @@ class MyGame(arcade.Window):
 
     def update(self, delta_time: float):
 
+        if self.defeat:
+            return
+
         self.clear_grid()
 
-        self.snake.update(self.direction)
-
-        self.add_snake_to_grid()
-
-        time.sleep(100/1000)
+        self.defeat = self.snake.update(self.direction)
+        # time.sleep(10/1000)
 
 
     def on_key_press(self, key: int, modifiers: int):
@@ -83,3 +120,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
