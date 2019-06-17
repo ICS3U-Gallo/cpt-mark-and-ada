@@ -25,12 +25,14 @@ UP = 10
 DOWN = 12
 LEFT = 11
 RIGHT = 13
+
 # Do the math to figure out oiur screen dimensions
 SCREEN_WIDTH = (WIDTH + MARGIN) * COLUMN_COUNT + MARGIN
 SCREEN_HEIGHT = (HEIGHT + MARGIN) * ROW_COUNT + MARGIN
 
 TITLE = "Snake"
 
+# buttons variables
 width = 700
 height = 700
 button_i = [width / 4 + 15, height / 2 - 90, 340, 60]
@@ -39,7 +41,7 @@ button_b = [width / 3 * 2, height / 5, 100, 30]
 button_b2 = [width / 3 * 2, height / 5, 100, 30]
 buttons = [button_i, button_s]
 
-
+# load image
 snake_head = arcade.load_texture("./snake_head.png")
 snake_body = arcade.load_texture("./snake_body.png")
 red_apple = arcade.load_texture("./red_apple.png")
