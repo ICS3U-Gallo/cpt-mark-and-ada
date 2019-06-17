@@ -74,9 +74,9 @@ class MyGame(arcade.Window):
         arcade.draw_xywh_rectangle_filled(xs, ys, ws, hs, arcade.color.WHITE_SMOKE)
 
         arcade.draw_text("* Instructions", width / 4 + 30, height / 2 - 80,
-                     arcade.color.BLACK, font_size=35)
+                         arcade.color.BLACK, font_size=35)
         arcade.draw_text("* Start", width / 4 + 30, height / 2 + 50,
-                     arcade.color.BLACK, font_size=35,)
+                         arcade.color.BLACK, font_size=35,)
 
     def on_mouse_press(self, x, y, button, modifiers):
         # if click the buttons, change the state
