@@ -68,3 +68,4 @@ class Snake:
             self.score += apple.score
 
             apple.produce(self)
+
