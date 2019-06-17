@@ -13,7 +13,7 @@ TITLE = "Snake"
 
 
 class MyGame(arcade.Window):
-
+    # define the initials
     def __init__(self, width, height, title):
         super().__init__(width, height, title, update_rate=10)
 
@@ -23,9 +23,9 @@ class MyGame(arcade.Window):
         self.grid = []
         self.defeat = False
         self.state = 0  # 1 instruction  0 menu 2 game 3 defeat
-
+        # add apple
         self.apple = Apple()
-        self.apple.prodece(self.snake)
+        self.apple.produce(self.snake)
 
         for row in range(ROW_COUNT):
             # Add an empty array that will hold each cell
@@ -36,9 +36,8 @@ class MyGame(arcade.Window):
 
         self.add_snake_to_grid()
 
-        arcade.set_background_color(arcade.color.BLACK)
-
     def add_snake_to_grid(self):
+        # add a cell for each block
         for i in range(ROW_COUNT):
             for j in range(COLUMN_COUNT):
                 self.grid[i][j] = 0
@@ -48,6 +47,7 @@ class MyGame(arcade.Window):
             col = self.snake.body[i][1]
             self.grid[row][col] = SNAKE
 
+        # give a value to a block represent different types of apple
         if self.apple.score == 1:
             apple_x = self.apple.x
             apple_y = self.apple.y
@@ -57,15 +57,18 @@ class MyGame(arcade.Window):
             apple_y = self.apple.y
             self.grid[apple_x][apple_y] = APPLE5
 
+        # define the first snake body is snake head
         head = self.snake.body[0]
         self.grid[head[0]][head[1]] = S_HEAD
 
     def draw_menu(self):
+        # button_i for instruction, button_s for start
         xi, yi, wi, hi = button_i
         xs, ys, ws, hs = button_s
 
         arcade.start_render()
         arcade.set_background_color(arcade.color.VANILLA)
+        # display buttons and texts
         arcade.draw_text("Snakes", width/4 + 40, height/4*3, arcade.color.BLACK, font_size=50)
         arcade.draw_xywh_rectangle_filled(xi, yi, wi, hi, arcade.color.WHITE_SMOKE)
         arcade.draw_xywh_rectangle_filled(xs, ys, ws, hs, arcade.color.WHITE_SMOKE)
@@ -76,6 +79,7 @@ class MyGame(arcade.Window):
                      arcade.color.BLACK, font_size=35,)
 
     def on_mouse_press(self, x, y, button, modifiers):
+        # if click the buttons, change the state
         if self.state == 0:
             i_x, i_y, i_w, i_h = button_i
             s_x, s_y, s_w, s_h = button_s
@@ -88,12 +92,15 @@ class MyGame(arcade.Window):
         elif self.state == 1:
             b_x, b_y, b_w, b_h = button_b
             if x > b_x and x < b_x + b_w and y > b_y and y < b_y + b_h:
+                # start a new game
                 self.setup()
         elif self.state == 3:
             b2_x, b2_y, b2_w, b2_h = button_b2
             if x > b2_x and x < b2_x + b2_w and y > b2_y and y < b2_y + b2_h:
+                # start a new game
                 self.setup()
 
+    # setup function reset all values to origin
     def setup(self):
         self.state = 0
         self.snake.body = []
@@ -108,6 +115,7 @@ class MyGame(arcade.Window):
         self.direction = UP
 
     def draw_instruction(self):
+        # draw instruction interface
         arcade.draw_rectangle_filled(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, SCREEN_WIDTH, SCREEN_HEIGHT,
                                      arcade.color.ROSE_GOLD)
         arcade.draw_text("Instructions", width/2 - 95, 600,
@@ -140,10 +148,12 @@ class MyGame(arcade.Window):
                          arcade.color.ROSE_GOLD, font_size=20)
 
     def draw_defeat(self):
+        # draw defeat interface
         arcade.draw_rectangle_filled(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, SCREEN_WIDTH, SCREEN_HEIGHT,
                                      arcade.color.RED)
         arcade.draw_text("YOU LOSE", SCREEN_WIDTH/2 - 70, SCREEN_HEIGHT/2,
                          arcade.color.WHITE_SMOKE, font_size=35)
+        # display your scores
         arcade.draw_text(f"Score: {str(self.snake.score)}", SCREEN_WIDTH/2 - 50, SCREEN_HEIGHT/2 - 50,
                          arcade.color.BLACK, font_size=35)
 
@@ -189,6 +199,7 @@ class MyGame(arcade.Window):
                     snake_body.draw(x, y, WIDTH, HEIGHT)
 
     def on_draw(self):
+        # draw different interfaces
         if self.state == 0:
             self.draw_menu()
         elif self.state == 2:
@@ -199,6 +210,7 @@ class MyGame(arcade.Window):
             self.draw_defeat()
 
     def update(self, delta_time: float):
+        # update all functions
         if self.state != 2:
             return
 
@@ -210,6 +222,7 @@ class MyGame(arcade.Window):
         self.add_snake_to_grid()
 
     def on_key_press(self, key: int, modifiers: int):
+        # use keyboard to control directions
         if key == arcade.key.UP:
             self.direction = UP
         elif key == arcade.key.DOWN:
@@ -221,7 +234,6 @@ class MyGame(arcade.Window):
 
 
 def main():
-
     window = MyGame(SCREEN_WIDTH, SCREEN_HEIGHT, TITLE)
     arcade.run()
 
