@@ -27,9 +27,12 @@ class Snake:
         self.tail = [self.body[-1][0], self.body[-1][1]]
 
         # snake moving
-        for i in range(self.length - 1, 0, -1):
-            self.body[i][0] = self.body[i - 1][0]
-            self.body[i][1] = self.body[i - 1][1]
+        try:
+            for i in range(self.length - 1, 0, -1):
+                self.body[i][0] = self.body[i - 1][0]
+                self.body[i][1] = self.body[i - 1][1]
+        except ValueError:
+            return
 
         # change snake's direction
         if direction == UP:
@@ -68,4 +71,3 @@ class Snake:
             self.score += apple.score
 
             apple.produce(self)
-
